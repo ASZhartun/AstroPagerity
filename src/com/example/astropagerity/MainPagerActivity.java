@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 public class MainPagerActivity extends FragmentActivity {
@@ -20,29 +19,28 @@ public class MainPagerActivity extends FragmentActivity {
 
 		adapter = new MyAdapter(getSupportFragmentManager());
 
-		vp = (ViewPager) findViewById(R.id.viewpager);
+		vp = (ViewPager) findViewById(R.id.pager);
 		vp.setAdapter(adapter);
-		vp.setCurrentItem(0);
+
 	}
 
 	private class MyAdapter extends FragmentPagerAdapter {
 
 		public MyAdapter(FragmentManager fm) {
 			super(fm);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
 		public Fragment getItem(int pos) {
 			switch (pos) {
-			case 1:
-				return new HoroFragment();
-			case 2:
+			case 0:
 				return new SeasonsFragment();
-			case 3:
-				return new MoonPhaseFragment();
-			case 4:
+			case 1:
 				return new ThousandsFragment();
+			case 2:
+				return new MoonPhaseFragment();
+//			case 3:
+//				return new HoroFragment();
 			default:
 				return null;
 			}
@@ -50,8 +48,7 @@ public class MainPagerActivity extends FragmentActivity {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
-			return 4;
+			return 3;
 		}
 
 	}

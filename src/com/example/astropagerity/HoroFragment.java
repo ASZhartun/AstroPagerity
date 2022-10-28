@@ -7,12 +7,9 @@ import java.util.TimeZone;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,7 +29,7 @@ public class HoroFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View myView = inflater.inflate(R.layout.horo_fragment, container);
+		View myView = inflater.inflate(R.layout.horo_fragment, container, false);
 
 		birthdayField = (EditText) myView.findViewById(R.id.BirthdayField);
 		overviewZodiacFragment = myView.findViewById(R.id.OverviewZodiac);

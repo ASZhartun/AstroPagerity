@@ -36,7 +36,7 @@ public class MoonPhaseFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View myView = inflater.inflate(R.layout.moonphase_fragment, container);
+		View myView = inflater.inflate(R.layout.moonphase_fragment, container, false);
 
 		// Выбор инпутов, кнопки, списков
 		dateField = (EditText) myView.findViewById(R.id.dateField);

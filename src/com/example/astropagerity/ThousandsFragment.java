@@ -24,7 +24,7 @@ public class ThousandsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		View myView = inflater.inflate(R.layout.thousands_fragment, container);
+		View myView = inflater.inflate(R.layout.thousands_fragment, container, false);
 		ListView myLv = (ListView) myView.findViewById(R.id.listView1);
 		adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, dates);
 		myLv.setAdapter(adapter);
@@ -81,7 +81,7 @@ public class ThousandsFragment extends Fragment {
 		
 		
 		
-		return null;
+		return myView;
 	}
 	
 	private String getDatePattern(String myDate) {

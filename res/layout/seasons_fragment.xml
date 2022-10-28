@@ -17,8 +17,6 @@
             android:ems="10"
             android:text="2022"
             android:textColor="#fff" >
-
-            <requestFocus />
         </EditText>
 
         <EditText
@@ -32,15 +30,13 @@
             android:textColor="#fff" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/seasonsRun"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="onclick"
             android:text="Расчет"
             android:textColor="#fff" />
-
     </LinearLayout>
 
     <TextView
