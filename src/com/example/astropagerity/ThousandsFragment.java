@@ -5,35 +5,33 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class ThousandsFragment extends FragmentActivity {
+public class ThousandsFragment extends Fragment {
 	
 	ArrayList<String> dates = new ArrayList<String>();
 	EditText dateHolder;
 	ArrayAdapter adapter;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.thousands_fragment);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		ListView myLv = (ListView) findViewById(R.id.listView1);
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dates);
+		View myView = inflater.inflate(R.layout.thousands_fragment, container);
+		ListView myLv = (ListView) myView.findViewById(R.id.listView1);
+		adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, dates);
 		myLv.setAdapter(adapter);
 		
-		Button myCalcButton = (Button) findViewById(R.id.button2);
-		Button mySysTimeButton = (Button) findViewById(R.id.button1);
-		dateHolder = (EditText) findViewById(R.id.editText1);
+		Button myCalcButton = (Button) myView.findViewById(R.id.button2);
+		Button mySysTimeButton = (Button) myView.findViewById(R.id.button1);
+		dateHolder = (EditText) myView.findViewById(R.id.editText1);
 		
 		Date myDate = new Date(0);
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -82,6 +80,8 @@ public class ThousandsFragment extends FragmentActivity {
 		});
 		
 		
+		
+		return null;
 	}
 	
 	private String getDatePattern(String myDate) {

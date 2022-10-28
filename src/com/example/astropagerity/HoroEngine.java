@@ -85,27 +85,27 @@ public class HoroEngine {
 		extraChineseSigns.put(9, "Çåìëÿ");
 
 	}
-	
+
 	public String[] calculateHoroSign(String date) {
 		parseDate(date);
 
 		int index = getHoroIndex();
-		
+
 		String[] preset = new String[2];
-		preset[0]= titles.get(index); 
-		preset[1]= contents.get(index);
+		preset[0] = titles.get(index);
+		preset[1] = contents.get(index);
 		return preset;
 	}
 
 	public String getZodiacSign(String date) {
 		parseDate(date);
-		
+
 		return zodiacSigns.get(zodiacSign(currYear, currMonth, currDay));
 	}
 
 	public String getChineseSign(String date) {
 		parseDate(date);
-		
+
 		return chineseSigns.get(chineseSign(currYear));
 	}
 
@@ -113,14 +113,14 @@ public class HoroEngine {
 		String[] parts = date.split("\\.");
 		return extraChineseSigns.get(extraÑhineseSign(Integer.parseInt(parts[2])));
 	}
-	
+
 	public void parseDate(String date) {
 		String[] parts = date.split("\\.");
 		currYear = Integer.parseInt(parts[2]);
 		currMonth = Integer.parseInt(parts[1]);
 		currDay = Integer.parseInt(parts[0]);
 	}
-	
+
 	public int getHoroIndex() {
 		return horoTable[chineseSign(currYear)][zodiacSign(currYear, currMonth, currDay)];
 	}

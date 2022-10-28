@@ -1,28 +1,32 @@
 package com.example.astropagerity;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class SeasonsFragment extends FragmentActivity {
+public class SeasonsFragment extends Fragment {
 	Jdays jd = new Jdays();
 	EditText year;
 	EditText zone;
 	TextView tv1, tv2, tv3, tv4;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.seasons_fragment);
-		year = (EditText) findViewById(R.id.editText1);
-		zone = (EditText) findViewById(R.id.editText2);
-		tv1 = (TextView) findViewById(R.id.textView2);
-		tv2 = (TextView) findViewById(R.id.textView3);
-		tv3 = (TextView) findViewById(R.id.textView4);
-		tv4 = (TextView) findViewById(R.id.textView5);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+		View myView = inflater.inflate(R.layout.seasons_fragment, container);
+
+		year = (EditText) myView.findViewById(R.id.editText1);
+		zone = (EditText) myView.findViewById(R.id.editText2);
+		tv1 = (TextView) myView.findViewById(R.id.textView2);
+		tv2 = (TextView) myView.findViewById(R.id.textView3);
+		tv3 = (TextView) myView.findViewById(R.id.textView4);
+		tv4 = (TextView) myView.findViewById(R.id.textView5);
+
+		return myView;
 	}
 
 	public void onclick(View v) {
@@ -31,7 +35,7 @@ public class SeasonsFragment extends FragmentActivity {
 		int lZone = 0;
 		if (!year.getText().toString().equals("")) {
 			mYear = Integer.parseInt(year.getText().toString());
-		} 
+		}
 		if (!zone.getText().toString().equals("")) {
 			lZone = Integer.parseInt(zone.getText().toString());
 		}

@@ -1,26 +1,22 @@
 package com.example.astropagerity;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class MoonPhaseFragment extends FragmentActivity {
+public class MoonPhaseFragment extends Fragment {
 
 	final String DATE_PATTERN = "dd.MM.yyyy HH:mm";
 
@@ -39,16 +35,15 @@ public class MoonPhaseFragment extends FragmentActivity {
 	SimpleAdapter phaseAdapter;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.moonphase_fragment);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View myView = inflater.inflate(R.layout.moonphase_fragment, container);
 
 		// Выбор инпутов, кнопки, списков
-		dateField = (EditText) findViewById(R.id.dateField);
-		zoneField = (EditText) findViewById(R.id.zoneField);
-		moonParams = (ListView) findViewById(R.id.moonParams);
-		moonPhases = (ListView) findViewById(R.id.moonPhases);
-		runBtn = (Button) findViewById(R.id.runBtn);
+		dateField = (EditText) myView.findViewById(R.id.dateField);
+		zoneField = (EditText) myView.findViewById(R.id.zoneField);
+		moonParams = (ListView) myView.findViewById(R.id.moonParams);
+		moonPhases = (ListView) myView.findViewById(R.id.moonPhases);
+		runBtn = (Button) myView.findViewById(R.id.runBtn);
 
 		// Получение текущей даты в нужном формате и часового пояса
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
@@ -60,14 +55,14 @@ public class MoonPhaseFragment extends FragmentActivity {
 
 		// Отображение расчетных значений луны
 		sourceParams = getParamCalculations(dateField.getText().toString());
-		paramAdapter = new SimpleAdapter(this, sourceParams, R.layout.moonphase_item_data,
+		paramAdapter = new SimpleAdapter(getActivity(), sourceParams, R.layout.moonphase_item_data,
 				new String[] { MoonPhaseParameterItem.NAME, MoonPhaseParameterItem.VALUE },
 				new int[] { R.id.name, R.id.value });
 		moonParams.setAdapter(paramAdapter);
 
 		// Получение расчетных значений фаз луны
 		sourcePhases = getPhasesCalculations(dateField.getText().toString());
-		phaseAdapter = new SimpleAdapter(this, sourcePhases, R.layout.moonphase_item_data,
+		phaseAdapter = new SimpleAdapter(getActivity(), sourcePhases, R.layout.moonphase_item_data,
 				new String[] { MoonPhaseParameterItem.NAME, MoonPhaseParameterItem.VALUE },
 				new int[] { R.id.name, R.id.value });
 		moonPhases.setAdapter(phaseAdapter);
@@ -92,6 +87,8 @@ public class MoonPhaseFragment extends FragmentActivity {
 				phaseAdapter.notifyDataSetChanged();
 			}
 		});
+
+		return myView;
 	}
 
 	private ArrayList<HashMap<String, String>> getParamCalculations(String dateForm) {

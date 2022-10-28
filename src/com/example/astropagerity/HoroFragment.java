@@ -8,17 +8,19 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class HoroFragment extends FragmentActivity {
-	
-	HoroEngine engine = new HoroEngine(this);
+public class HoroFragment extends Fragment {
+
+	HoroEngine engine = new HoroEngine(getActivity());
 
 	final String DATE_PATTERN = "dd.MM.yyyy";
 	int mYear = 1990, mMonth = 0, mDay = 1;
@@ -27,26 +29,26 @@ public class HoroFragment extends FragmentActivity {
 	View overviewZodiacFragment;
 	View overviewChineseFragment;
 	View descriptionFragment;
-	
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.horo_fragment);
-		birthdayField = (EditText) findViewById(R.id.BirthdayField);
-		overviewZodiacFragment = findViewById(R.id.OverviewZodiac);
-		overviewChineseFragment = findViewById(R.id.OverviewChineseSign);
-		descriptionFragment = findViewById(R.id.decriptionContent);
-		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View myView = inflater.inflate(R.layout.horo_fragment, container);
+
+		birthdayField = (EditText) myView.findViewById(R.id.BirthdayField);
+		overviewZodiacFragment = myView.findViewById(R.id.OverviewZodiac);
+		overviewChineseFragment = myView.findViewById(R.id.OverviewChineseSign);
+		descriptionFragment = myView.findViewById(R.id.decriptionContent);
+
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
 		sdf.setTimeZone(TimeZone.getDefault());
 		birthdayField.setText(sdf.format(date));
 
+		return myView;
 	}
 
 	public void onDatePicker(View v) {
-		DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+		DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 			@Override
 			public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 				mDay = dayOfMonth;
@@ -69,7 +71,7 @@ public class HoroFragment extends FragmentActivity {
 		}, mYear, mMonth, mDay);
 		dpd.show();
 	}
-	
+
 	public void onCalculate(View v) {
 		String date = birthdayField.getText().toString();
 		// Устанавливаем значения для китайской карточки
@@ -82,7 +84,7 @@ public class HoroFragment extends FragmentActivity {
 		tvChineseExtraName.setText(chineseExtraSign);
 		chineseImage.setImageResource(getChineseSignImage());
 //		chineseImage.setImageResource(getChineseSignImageByName(chineseSign));
-		
+
 		// Устанавливаем значения для зодиакальной карточки
 		TextView tvZodiacName = (TextView) overviewZodiacFragment.findViewById(R.id.signName);
 		TextView tvZodiacExtraName = (TextView) overviewZodiacFragment.findViewById(R.id.signCategory);
@@ -91,7 +93,7 @@ public class HoroFragment extends FragmentActivity {
 		tvZodiacName.setText(zodiacSign);
 		tvZodiacExtraName.setText("");
 		zodiacImage.setImageResource(getZodiacSignImage());
-		
+
 		// Устанавливаем значения для описания знака структурного гороскопа
 		ImageView horoImage = (ImageView) descriptionFragment.findViewById(R.id.horoSign);
 		TextView horoTitle = (TextView) descriptionFragment.findViewById(R.id.title);
@@ -100,29 +102,31 @@ public class HoroFragment extends FragmentActivity {
 		horoContent.setText(engine.calculateHoroSign(date)[1]);
 		horoImage.setImageResource(getHoroSignImage());
 	}
-	
+
 	public int getChineseSignImage() {
 		int index = engine.chineseSign(engine.getCurrYear());
 		String pos = String.valueOf(++index);
 		if (index < 10) {
 			pos = "0" + pos;
 		}
-		return HoroFragment.this.getResources().getIdentifier("chinese_sign_" + pos, "drawable", this.getPackageName());
+		return getActivity().getResources().getIdentifier("chinese_sign_" + pos, "drawable",
+				getActivity().getPackageName());
 	}
-	
+
 	public int getZodiacSignImage() {
 		int index = engine.zodiacSign(engine.getCurrYear(), engine.getCurrMonth(), engine.getCurrDay());
 		String pos = String.valueOf(++index);
 		if (index < 10) {
 			pos = "0" + pos;
 		}
-		return HoroFragment.this.getResources().getIdentifier("zodiac_sign_" + pos, "drawable", this.getPackageName());
+		return getActivity().getResources().getIdentifier("zodiac_sign_" + pos, "drawable",
+				getActivity().getPackageName());
 	}
-	
+
 	public int getHoroSignImage() {
 		int index = engine.getHoroIndex();
 		String pos = String.valueOf(index);
-		return HoroFragment.this.getResources().getIdentifier("horo_" + pos, "drawable", this.getPackageName());
+		return getActivity().getResources().getIdentifier("horo_" + pos, "drawable", getActivity().getPackageName());
 	}
 
 }
