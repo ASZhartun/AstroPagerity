@@ -9,7 +9,7 @@ import java.util.HashMap;
 import android.content.Context;
 
 public class HoroEngine {
-	Context ctx;
+	String contentMainSigns;
 
 	public static HashMap<Integer, String> chineseSigns = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> zodiacSigns = new HashMap<Integer, String>();
@@ -35,8 +35,8 @@ public class HoroEngine {
 	int currMonth;
 	int currDay;
 
-	public HoroEngine(Context context) {
-		this.ctx = context;
+	public HoroEngine(String ctnt) {
+		contentMainSigns = ctnt;
 		init();
 		readContents();
 	}
@@ -155,29 +155,7 @@ public class HoroEngine {
 	}
 
 	public void readContents() {
-		String path = "res/raw/treats.txt";
-		InputStream in = ctx.getClass().getClassLoader().getResourceAsStream(path);
-		InputStreamReader inStream = new InputStreamReader(in);
-		BufferedReader reader = new BufferedReader(inStream);
-		String str = "";
-		StringBuilder sb = new StringBuilder();
-		try {
-			while ((str = reader.readLine()) != null) {
-				sb.append(str).append("$");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			reader.close();
-			inStream.close();
-			in.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		str = sb.toString();
+		String str = contentMainSigns;
 		String[] parts = str.split("[$]");
 		int edge = parts.length;
 
@@ -210,6 +188,11 @@ public class HoroEngine {
 
 	public void setCurrDay(int currDay) {
 		this.currDay = currDay;
+	}
+
+	public void setContent(String mainContent) {
+		contentMainSigns = mainContent;
+		
 	}
 
 }

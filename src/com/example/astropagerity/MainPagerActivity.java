@@ -39,16 +39,16 @@ public class MainPagerActivity extends FragmentActivity {
 				return new ThousandsFragment();
 			case 2:
 				return new MoonPhaseFragment();
-//			case 3:
-//				return new HoroFragment();
+			case 3:
+				return new HoroFragment();
 			default:
-				return null;
+				return new HoroFragment();
 			}
 		}
 
 		@Override
 		public int getCount() {
-			return 3;
+			return 4;
 		}
 
 	}

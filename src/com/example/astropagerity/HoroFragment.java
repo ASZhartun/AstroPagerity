@@ -1,5 +1,9 @@
 package com.example.astropagerity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -9,15 +13,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class HoroFragment extends Fragment {
+	String mainContent;
 
-	HoroEngine engine = new HoroEngine(getActivity());
+	HoroEngine engine;
 
 	final String DATE_PATTERN = "dd.MM.yyyy";
 	int mYear = 1990, mMonth = 0, mDay = 1;
@@ -26,6 +33,18 @@ public class HoroFragment extends Fragment {
 	View overviewZodiacFragment;
 	View overviewChineseFragment;
 	View descriptionFragment;
+	
+	Button chooseBtn;
+	Button runBtn;
+	
+	
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mainContent = readContent();
+		engine = new HoroEngine(mainContent);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,11 +54,31 @@ public class HoroFragment extends Fragment {
 		overviewZodiacFragment = myView.findViewById(R.id.OverviewZodiac);
 		overviewChineseFragment = myView.findViewById(R.id.OverviewChineseSign);
 		descriptionFragment = myView.findViewById(R.id.decriptionContent);
+		chooseBtn = (Button) myView.findViewById(R.id.ChooseButton);
+		runBtn = (Button) myView.findViewById(R.id.RunButton);
 
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
 		sdf.setTimeZone(TimeZone.getDefault());
 		birthdayField.setText(sdf.format(date));
+		
+		chooseBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				onDatePicker(v);
+			}
+			
+		});;
+		
+		runBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				onCalculate(v);
+			}
+			
+		});;
 
 		return myView;
 	}
@@ -124,6 +163,40 @@ public class HoroFragment extends Fragment {
 		int index = engine.getHoroIndex();
 		String pos = String.valueOf(index);
 		return getActivity().getResources().getIdentifier("horo_" + pos, "drawable", getActivity().getPackageName());
+	}
+
+	public String getMainContent() {
+		return mainContent;
+	}
+
+	public void setMainContent(String mainContent) {
+		this.mainContent = mainContent;
+	}
+	
+	private String readContent() {
+		InputStream in = this.getResources().openRawResource(R.raw.treats);
+		InputStreamReader inStream = new InputStreamReader(in);
+		BufferedReader reader = new BufferedReader(inStream);
+		String str = "";
+		StringBuilder sb = new StringBuilder();
+		try {
+			while ((str = reader.readLine()) != null) {
+				sb.append(str).append("$");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			reader.close();
+			inStream.close();
+			in.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		str = sb.toString();
+		return str;
 	}
 
 }
